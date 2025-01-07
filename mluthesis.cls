@@ -19,18 +19,6 @@
 \RequirePackage{xifthen}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Options
-\newcommand{\thesistype}{}
-\DeclareOption{bachelor}{%
-\renewcommand{\thesistype}{Bachelor}%
-}
-\DeclareOption{master}{%
-\renewcommand{\thesistype}{Master}%
-}
-\ExecuteOptions{bachelor} % default
-
-\ProcessOptions
-
 % Font
 \RequirePackage{libertine}
 \RequirePackage{sourcecodepro}
@@ -69,6 +57,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Variables
+\newtoks\thesistype
+\newcommand{\ThesisSetType}[1]{\global\thesistype{#1}}
+
 \newtoks\thesistitle
 \newcommand{\ThesisSetTitle}[1]{\global\thesistitle{#1}}
 
@@ -154,7 +145,7 @@
 \newtoks\thesisdeclarationtext
 \newtoks\thesisfrontmatterkeywords
 \global\thesisfrontpagecourse{Degree Programme }
-\global\thesisfrontpagetypename{\thesistype's Thesis}
+\global\thesisfrontpagetypename{\the\thesistype's Thesis}
 \global\thesisfrontpagestudentnumber{Matriculation Number}
 \global\thesisfrontpageborn{Born \the\thesisauthordateofbirth{} in \the\thesisauthorplaceofbirth}
 \global\thesisfrontpagesupervisor{Referee}
@@ -168,7 +159,7 @@
 \global\thesisfrontmatterkeywords{Keywords}
 \IfGerman{%
   \global\thesisfrontpagecourse{Studiengang }
-  \global\thesisfrontpagetypename{\thesistype arbeit}
+  \global\thesisfrontpagetypename{\the\thesistype arbeit}
   \global\thesisfrontpagestudentnumber{Matrikelnummer}
   \global\thesisfrontpageborn{geb.\ am:\ \the\thesisauthordateofbirth{} in %
     \the\thesisauthorplaceofbirth}
