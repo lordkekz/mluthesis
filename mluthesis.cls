@@ -66,6 +66,9 @@
 \newtoks\thesisauthor
 \newcommand{\ThesisSetAuthor}[1]{\global\thesisauthor{#1}}
 
+\newtoks\thesissupervisorlabeloverride
+\newcommand{\ThesisOverrideSupervisorLabel}[1]{\global\thesissupervisorlabeloverride{#1}}
+
 \newtoks\thesissupervisors
 \newcommand{\ThesisSetSupervisors}[1]{\global\thesissupervisors{#1}}
 
@@ -148,7 +151,7 @@
 \global\thesisfrontpagetypename{\the\thesistype's Thesis}
 \global\thesisfrontpagestudentnumber{Matriculation Number}
 \global\thesisfrontpageborn{Born \the\thesisauthordateofbirth{} in \the\thesisauthorplaceofbirth}
-\global\thesisfrontpagesupervisor{Referee}
+\global\thesisfrontpagesupervisor{\ifthenelse{\value{\the\thesissupervisorlabeloverride}}{\the\thesissupervisorlabeloverride}{Referee}}
 \global\thesisfrontpagedateofsubmission{Submission date}
 \global\thesisdeclarationtitle{Declaration}
 \global\thesisdeclarationtext{%
@@ -163,7 +166,7 @@
   \global\thesisfrontpagestudentnumber{Matrikelnummer}
   \global\thesisfrontpageborn{geb.\ am:\ \the\thesisauthordateofbirth{} in %
     \the\thesisauthorplaceofbirth}
-  \global\thesisfrontpagesupervisor{Gutachter}
+  \global\thesisfrontpagesupervisor{\ifthenelse{\value{\the\thesissupervisorlabeloverride}}{\the\thesissupervisorlabeloverride}{Gutachter}}
   \global\thesisfrontpagedateofsubmission{Datum der Abgabe}
   \global\thesisdeclarationtitle{Erkl\"arung}
   \global\thesisdeclarationtext{Hiermit versichere ich, dass ich diese Arbeit %
@@ -172,12 +175,19 @@
   \global\thesisfrontmatterkeywords{Schl\"usselworte}
 }{}
 
+\RequirePackage{xstring}
+\newcommand*{\commalength}[1]{%
+  \StrCount{#1,}{,}%
+}
+
 % Frontpage
 \newcounter{supervisors}
+\newcounter{supervisorsPrecount}
 \newcommand{\printsupervisor}[1]{%
   \ifthenelse{\value{supervisors}=0}{}{\\}%
   \addtocounter{supervisors}{1}%
-  \arabic{supervisors}. \the\thesisfrontpagesupervisor:
+  \ifthenelse{\value{supervisorsPrecount}=1}{}{\arabic{supervisors}.}
+  \the\thesisfrontpagesupervisor:
   #1
 }
 \renewcommand{\maketitle}{
@@ -207,6 +217,7 @@
 
   \vspace{1em}
   \makeatletter%
+  \@for \name:=\the\thesissupervisors\do{\stepcounter{supervisorsPrecount}}%
   \@for \name:=\the\thesissupervisors\do{\printsupervisor{\name}}%
   \makeatother%
 
