@@ -66,8 +66,9 @@
 \newtoks\thesisauthor
 \newcommand{\ThesisSetAuthor}[1]{\global\thesisauthor{#1}}
 
-\newtoks\thesissupervisorlabeloverride
-\newcommand{\ThesisOverrideSupervisorLabel}[1]{\global\thesissupervisorlabeloverride{#1}}
+% We can directly set the token register which is properly declared later, since the
+% class's initialization happens before the document's override is called.
+\newcommand{\ThesisOverrideSupervisorLabel}[1]{\global\thesisfrontpagesupervisor{#1}}
 
 \newtoks\thesissupervisors
 \newcommand{\ThesisSetSupervisors}[1]{\global\thesissupervisors{#1}}
@@ -151,7 +152,7 @@
 \global\thesisfrontpagetypename{\the\thesistype's Thesis}
 \global\thesisfrontpagestudentnumber{Matriculation Number}
 \global\thesisfrontpageborn{Born \the\thesisauthordateofbirth{} in \the\thesisauthorplaceofbirth}
-\global\thesisfrontpagesupervisor{\ifthenelse{\value{\the\thesissupervisorlabeloverride}}{\the\thesissupervisorlabeloverride}{Referee}}
+\global\thesisfrontpagesupervisor{Referee}
 \global\thesisfrontpagedateofsubmission{Submission date}
 \global\thesisdeclarationtitle{Declaration}
 \global\thesisdeclarationtext{%
@@ -166,7 +167,7 @@
   \global\thesisfrontpagestudentnumber{Matrikelnummer}
   \global\thesisfrontpageborn{geb.\ am:\ \the\thesisauthordateofbirth{} in %
     \the\thesisauthorplaceofbirth}
-  \global\thesisfrontpagesupervisor{\ifthenelse{\value{\the\thesissupervisorlabeloverride}}{\the\thesissupervisorlabeloverride}{Gutachter}}
+  \global\thesisfrontpagesupervisor{Gutachter}
   \global\thesisfrontpagedateofsubmission{Datum der Abgabe}
   \global\thesisdeclarationtitle{Erkl\"arung}
   \global\thesisdeclarationtext{Hiermit versichere ich, dass ich diese Arbeit %
